@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<colecao>	
+	<video>
+		<id>Battlefield</id>
+		<uri>rtsp://10.208.200.92/sample_50kbit.3gp</uri>
+		<thumbnail>nothing</thumbnail>
+	</video>
+	<video>
+		<id>Metal Gear</id>
+		<uri>www.algumvideo2.com</uri>
+		<thumbnail>nothing</thumbnail>
+	</video>
+	<video>
+		<id>Deus Ex</id>
+		<uri>www.algumvideo3.com</uri>
+		<thumbnail>nothing</thumbnail>
+	</video>
+	<video>
+		<id>CoD:BO</id>
+		<uri>www.algumvideo4.com</uri>
+		<thumbnail>nothing</thumbnail>
+	</video>
+	<video>
+		<id>Final Fantasy</id>
+		<uri>www.algumvideo5.com</uri>
+		<thumbnail>nothing</thumbnail>
+	</video>
+	<video>
+		<id>Skyrim</id>
+		<uri>www.algumvideo6.com</uri>
+		<thumbnail>nothing</thumbnail>
+	</video>
+</colecao>
