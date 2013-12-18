@@ -1,9 +1,13 @@
 package com.rdc.activities;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.rdc.classes.VideoDataClass;
 import com.rdc.youtubekiller.R;
@@ -25,6 +29,9 @@ public class ShowSelectedVideo extends Activity {
 		idText.setText(video.getId());
 		uriText.setText(video.getUri());
 		thumbnailText.setText(video.getThumbnail());
+		Log.e("URI",video.getUri());
+		/*Passa a uri e comeca a streaming do video*/
+		startVideoStreaming(video.getUri());
 		
 	}
 
@@ -33,6 +40,14 @@ public class ShowSelectedVideo extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.show_selected_video, menu);
 		return true;
+	}
+	
+	private void startVideoStreaming(String uri){
+		VideoView myVideoView = (VideoView) findViewById(R.id.myvideoview);
+		myVideoView.setVideoURI(Uri.parse(uri));
+		myVideoView.setMediaController(new MediaController(this));
+		myVideoView.requestFocus();
+		myVideoView.start();
 	}
 
 }
