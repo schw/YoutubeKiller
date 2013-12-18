@@ -49,7 +49,7 @@ public class videosAdapter extends BaseAdapter{
 		ImageView image = (ImageView)rowView.findViewById(R.id.itemImageView);
 		TextView text = (TextView)rowView.findViewById(R.id.itemTextView);
 		
-		text.setText(arrayVideoData.get(position).getName());
+		text.setText(arrayVideoData.get(position).getUri());
 		
 		return rowView;
 	}

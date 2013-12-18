@@ -8,7 +8,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
@@ -16,7 +15,6 @@ import android.sax.RootElement;
 import android.sax.StartElementListener;
 import android.util.Xml;
 
-import com.rdc.classes.RelatedVideosClass;
 import com.rdc.classes.VideoDataClass;
 
 public class VideoDataParse {
@@ -24,16 +22,14 @@ public class VideoDataParse {
 	private static InputStream is;
 	private static ArrayList<VideoDataClass> arrayVideosDataClass;
 	private static VideoDataClass videoData;
-	private static RelatedVideosClass relatedVideo;
-	private static ArrayList<RelatedVideosClass> arrayRelatedVideoClass;
 	
-	public static ArrayList<VideoDataClass> parse(Context context) throws IOException, SAXException {
+	public static ArrayList<VideoDataClass> parse(Context context, String xmlFileName) throws IOException, SAXException {
 	       
         final RootElement root = new RootElement("colecao"); //mudar isso aqui
         
         arrayVideosDataClass = new ArrayList<VideoDataClass>();
         
-        is = context.getResources().getAssets().open("dados_dos_videos.xml");
+        is = context.getResources().getAssets().open(xmlFileName);
         
         //Acessa os atributos do item atual 
         root.setStartElementListener(new StartElementListener() {				
@@ -50,7 +46,6 @@ public class VideoDataParse {
 			
 			
 			public void start(Attributes attr) {
-				arrayRelatedVideoClass = new ArrayList<RelatedVideosClass>();
 				//nova instancia do objeto para armazar as informações de 'video data'
 				videoData = new VideoDataClass();
 
@@ -69,53 +64,17 @@ public class VideoDataParse {
         });
         
         video.getChild("thumbnail").setEndTextElementListener(new EndTextElementListener(){ //verificar isso aqui...
-            public void end(Bitmap thumbnail) {
+            public void end(String thumbnail) {
             	videoData.setThumbnail(thumbnail);
             }
 
-			@Override
-			public void end(String body) {
-				// TODO Auto-generated method stub
-				
-			}
-        });
-        video.getChild("name").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String name) {
-            	videoData.setName(name);
-            }
         });
         
-        Element related = video.getChild("related");
-        
-        related.setStartElementListener(new StartElementListener() {
-			
-			
-			public void start(Attributes attr) {
-				
-				relatedVideo = new RelatedVideosClass();
-
-			}
-		});
-        	
-        related.getChild("id").setEndTextElementListener(new EndTextElementListener(){
-            public void end(String id) {
-            	relatedVideo.setId(id);
-            }
-        });
-        related.setEndElementListener(new EndElementListener() {
-			
-			
-			public void end() {
-				
-				arrayRelatedVideoClass.add(relatedVideo);
-			}
-		});
         video.setEndElementListener(new EndElementListener() {
 			
 			
 			public void end() {
 				
-				videoData.setRelatedVideos(arrayRelatedVideoClass);
 				arrayVideosDataClass.add(videoData);
 			}
 		});

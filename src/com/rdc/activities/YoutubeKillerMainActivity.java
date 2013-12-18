@@ -21,7 +21,6 @@ import com.rdc.adapters.videosAdapter;
 import com.rdc.classes.VideoDataClass;
 import com.rdc.parsers.VideoDataParse;
 import com.rdc.youtubekiller.R;
-import com.rdc.youtubekiller.ShowSelectedVideo;
 
 public class YoutubeKillerMainActivity extends Activity {
 
@@ -30,6 +29,7 @@ public class YoutubeKillerMainActivity extends Activity {
 	private ListView videoListView;
 	private Context context = this;
 	private Intent intent;
+	private String xmlFileName = "id.xml"; //Nome do arquivo xml onde o parser vai ser feito
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +46,17 @@ public class YoutubeKillerMainActivity extends Activity {
 			
 			public void onItemClick(AdapterView<?>parent, View view, int position, long id){
 				//ListView Clicked item index
-//				int itemPosition = position;
+				int itemPosition = position;
 				
 				//ListView Clicked item value
-//				TechnicalSession objectSession = (TechnicalSession)techSessions.getItemAtPosition(itemPosition);
+				VideoDataClass objectVideo = (VideoDataClass)videoListView.getItemAtPosition(itemPosition);
 				
+				//Colocando o item selecionado dentro do bundle e iniciando uma nova activity
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("objectVideo", objectVideo);
 				intent = new Intent(context,ShowSelectedVideo.class);
-				
-		        startActivity(intent); 
+				intent.putExtras(bundle);
+		        startActivity(intent);
 			}
 		});
     }
@@ -72,7 +75,7 @@ public class YoutubeKillerMainActivity extends Activity {
 		//Faz o parser to arquivo xml e add em 'videos'
 		protected Void doInBackground(Void... params) {
 			try {
-				videos = VideoDataParse.parse(context);
+				videos = VideoDataParse.parse(context, xmlFileName);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -91,14 +94,7 @@ public class YoutubeKillerMainActivity extends Activity {
 			for(VideoDataClass item : videos){
 				Log.e("Id: ", item.getId());
 				Log.e("URI: ", item.getUri());
-				Log.e("Name: ", item.getName());
-				Log.e("Id2: ", item.getRelatedVideos().get(0).getId());
-				Log.e("Id2: ", item.getRelatedVideos().get(1).getId());
-				Log.e("Id2: ", item.getRelatedVideos().get(2).getId());
-				Log.e("Id2: ", item.getRelatedVideos().get(3).getId());
-				Log.e("Id2: ", item.getRelatedVideos().get(4).getId());
-				Log.e("Id2: ", item.getRelatedVideos().get(5).getId());
-				Log.e("Id2: ", item.getRelatedVideos().get(6).getId());
+				Log.e("Thumbnail: ", item.getThumbnail());
 				
 			}
 		}
